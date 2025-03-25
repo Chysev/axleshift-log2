@@ -1,0 +1,17 @@
+### Create Award Notice
+POST http://localhost:5058/api/v1/awards
+Content-Type: application/json
+
+{
+  "title": "Supply of Office Equipment",
+  "amount": 1500000.00,
+  "date": "2025-01-15",
+  "details": "Procurement of various office equipment including printers, computers, and furniture.",
+  "vendorId": "67df0d270e569b4642aa7e1b",
+  "poId": "67df10d0c20892aff7d34020"
+}
+
+### Get All Award Notices
+GET http://localhost:5000/api/v1/awards
+
+
