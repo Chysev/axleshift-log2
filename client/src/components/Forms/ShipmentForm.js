@@ -38,12 +38,26 @@ const ShipmentManagerPage = () => {
   const [formData, setFormData] = useState({
     tracking_id: '',
     shipper_company_name: '',
+    shipper_contact_name: '',
+    shipper_contact_email_address: '',
+    shipper_contact_phone_number: '',
+    shipper_company_address: '',
     consignee_company_name: '',
+    consignee_contact_name: '',
+    consignee_contact_email_address: '',
+    consignee_contact_phone_number: '',
+    consignee_company_address: '',
     shipment_description: '',
     shipment_weight: '',
     shipment_dimension_length: '',
     shipment_dimension_width: '',
     shipment_dimension_height: '',
+    receiveDate: '',
+    isInWarehouse: false,
+    dispatch: 'Pending',
+    paid: 'Unpaid',
+    amount: '',
+    type: 'public',
   })
 
   useEffect(() => {
@@ -81,17 +95,17 @@ const ShipmentManagerPage = () => {
         tracking_id: formData.tracking_id,
         shipper: {
           shipper_company_name: formData.shipper_company_name,
-          shipper_contact_name: 'Temp',
-          shipper_contact_email_address: 'temp@example.com',
-          shipper_contact_phone_number: '000',
-          shipper_company_address: 'N/A',
+          shipper_contact_name: formData.shipper_contact_name,
+          shipper_contact_email_address: formData.shipper_contact_email_address,
+          shipper_contact_phone_number: formData.shipper_contact_phone_number,
+          shipper_company_address: formData.shipper_company_address,
         },
         consignee: {
           consignee_company_name: formData.consignee_company_name,
-          consignee_contact_name: 'Temp',
-          consignee_contact_email_address: 'temp@example.com',
-          consignee_contact_phone_number: '000',
-          consignee_company_address: 'N/A',
+          consignee_contact_name: formData.consignee_contact_name,
+          consignee_contact_email_address: formData.consignee_contact_email_address,
+          consignee_contact_phone_number: formData.consignee_contact_phone_number,
+          consignee_company_address: formData.consignee_company_address,
         },
         shipment: {
           shipment_description: formData.shipment_description,
@@ -107,6 +121,12 @@ const ShipmentManagerPage = () => {
           shipping_type: 'land',
           shipping_details: { land: { origin_address: 'N/A', destination_address: 'N/A' } },
         },
+        receiveDate: formData.receiveDate || null,
+        isInWarehouse: formData.isInWarehouse,
+        dispatch: 'Pending',
+        paid: 'Unpaid',
+        amount: 0,
+        type: 'public',
       }
 
       if (editMode) {
@@ -132,22 +152,43 @@ const ShipmentManagerPage = () => {
     setFormData({
       tracking_id: '',
       shipper_company_name: '',
+      shipper_contact_name: '',
+      shipper_contact_email_address: '',
+      shipper_contact_phone_number: '',
+      shipper_company_address: '',
       consignee_company_name: '',
+      consignee_contact_name: '',
+      consignee_contact_email_address: '',
+      consignee_contact_phone_number: '',
+      consignee_company_address: '',
       shipment_description: '',
       shipment_weight: '',
       shipment_dimension_length: '',
       shipment_dimension_width: '',
       shipment_dimension_height: '',
+      receiveDate: '',
+      isInWarehouse: false,
+      dispatch: 'Pending',
+      paid: 'Unpaid',
+      amount: 0,
+      type: 'public',
     })
   }
-
   const handleEdit = (shipment) => {
     setEditMode(true)
     setCurrentId(shipment._id)
     setFormData({
       tracking_id: shipment.tracking_id,
       shipper_company_name: shipment.shipper?.shipper_company_name || '',
+      shipper_contact_name: shipment.shipper?.shipper_contact_name || '',
+      shipper_contact_email_address: shipment.shipper?.shipper_contact_email_address || '',
+      shipper_contact_phone_number: shipment.shipper?.shipper_contact_phone_number || '',
+      shipper_company_address: shipment.shipper?.shipper_company_address || '',
       consignee_company_name: shipment.consignee?.consignee_company_name || '',
+      consignee_contact_name: shipment.consignee?.consignee_contact_name || '',
+      consignee_contact_email_address: shipment.consignee?.consignee_contact_email_address || '',
+      consignee_contact_phone_number: shipment.consignee?.consignee_contact_phone_number || '',
+      consignee_company_address: shipment.consignee?.consignee_company_address || '',
       shipment_description: shipment.shipment?.shipment_description || '',
       shipment_weight: shipment.shipment?.shipment_weight || '',
       shipment_dimension_length: shipment.shipment?.shipment_dimension_length || '',
@@ -185,6 +226,198 @@ const ShipmentManagerPage = () => {
           + New Shipment
         </CButton>
       </div>
+
+      <CModal visible={modalVisible} onClose={() => setModalVisible(false)} size="lg">
+        <CModalHeader>
+          <CModalTitle>{editMode ? 'Edit Shipment' : 'Create Shipment'}</CModalTitle>
+        </CModalHeader>
+        <CModalBody>
+          <CForm onSubmit={handleCreateOrUpdate}>
+            <CRow className="mb-3">
+              <CCol md={6}>
+                <CFormInput
+                  label="Tracking ID"
+                  name="tracking_id"
+                  value={formData.tracking_id}
+                  onChange={handleChange}
+                  required
+                />
+              </CCol>
+              <CRow className="mb-3">
+                <CCol md={6}>
+                  <CFormInput
+                    type="date"
+                    label="Received Date"
+                    name="receiveDate"
+                    value={formData.receiveDate}
+                    onChange={handleChange}
+                  />
+                </CCol>
+              </CRow>
+              <CCol md={6}>
+                <CFormInput
+                  label="Shipper Company"
+                  name="shipper_company_name"
+                  value={formData.shipper_company_name}
+                  onChange={handleChange}
+                  required
+                />
+              </CCol>
+            </CRow>
+            <CRow className="mb-3">
+              <CCol md={4}>
+                <CFormInput
+                  label="Shipper Contact Name"
+                  name="shipper_contact_name"
+                  value={formData.shipper_contact_name}
+                  onChange={handleChange}
+                  required
+                />
+              </CCol>
+              <CCol md={4}>
+                <CFormInput
+                  label="Shipper Email"
+                  name="shipper_contact_email_address"
+                  value={formData.shipper_contact_email_address}
+                  onChange={handleChange}
+                  required
+                />
+              </CCol>
+              <CCol md={4}>
+                <CFormInput
+                  label="Shipper Phone"
+                  name="shipper_contact_phone_number"
+                  value={formData.shipper_contact_phone_number}
+                  onChange={handleChange}
+                  required
+                />
+              </CCol>
+            </CRow>
+            <CRow className="mb-3">
+              <CCol>
+                <CFormInput
+                  label="Shipper Address"
+                  name="shipper_company_address"
+                  value={formData.shipper_company_address}
+                  onChange={handleChange}
+                  required
+                />
+              </CCol>
+            </CRow>
+
+            <CRow className="mb-3">
+              <CCol md={6}>
+                <CFormInput
+                  label="Consignee Company"
+                  name="consignee_company_name"
+                  value={formData.consignee_company_name}
+                  onChange={handleChange}
+                  required
+                />
+              </CCol>
+              <CCol md={6}>
+                <CFormInput
+                  label="Consignee Contact Name"
+                  name="consignee_contact_name"
+                  value={formData.consignee_contact_name}
+                  onChange={handleChange}
+                  required
+                />
+              </CCol>
+            </CRow>
+            <CRow className="mb-3">
+              <CCol md={4}>
+                <CFormInput
+                  label="Consignee Email"
+                  name="consignee_contact_email_address"
+                  value={formData.consignee_contact_email_address}
+                  onChange={handleChange}
+                  required
+                />
+              </CCol>
+              <CCol md={4}>
+                <CFormInput
+                  label="Consignee Phone"
+                  name="consignee_contact_phone_number"
+                  value={formData.consignee_contact_phone_number}
+                  onChange={handleChange}
+                  required
+                />
+              </CCol>
+              <CCol md={4}>
+                <CFormInput
+                  label="Consignee Address"
+                  name="consignee_company_address"
+                  value={formData.consignee_company_address}
+                  onChange={handleChange}
+                  required
+                />
+              </CCol>
+            </CRow>
+
+            <CRow className="mb-3">
+              <CCol md={6}>
+                <CFormInput
+                  label="Description"
+                  name="shipment_description"
+                  value={formData.shipment_description}
+                  onChange={handleChange}
+                  required
+                />
+              </CCol>
+              <CCol md={6}>
+                <CFormInput
+                  label="Weight (kg)"
+                  name="shipment_weight"
+                  type="number"
+                  value={formData.shipment_weight}
+                  onChange={handleChange}
+                  required
+                />
+              </CCol>
+            </CRow>
+
+            <CRow className="mb-3">
+              <CCol md={4}>
+                <CFormInput
+                  label="Length (cm)"
+                  name="shipment_dimension_length"
+                  type="number"
+                  value={formData.shipment_dimension_length}
+                  onChange={handleChange}
+                  required
+                />
+              </CCol>
+              <CCol md={4}>
+                <CFormInput
+                  label="Width (cm)"
+                  name="shipment_dimension_width"
+                  type="number"
+                  value={formData.shipment_dimension_width}
+                  onChange={handleChange}
+                  required
+                />
+              </CCol>
+              <CCol md={4}>
+                <CFormInput
+                  label="Height (cm)"
+                  name="shipment_dimension_height"
+                  type="number"
+                  value={formData.shipment_dimension_height}
+                  onChange={handleChange}
+                  required
+                />
+              </CCol>
+            </CRow>
+
+            <div className="text-end">
+              <CButton type="submit" color="success" disabled={loading}>
+                {loading ? <CSpinner size="sm" /> : editMode ? 'Update' : 'Create'}
+              </CButton>
+            </div>
+          </CForm>
+        </CModalBody>
+      </CModal>
 
       <CTable striped hover responsive>
         <CTableHead>
@@ -226,109 +459,6 @@ const ShipmentManagerPage = () => {
           ))}
         </CTableBody>
       </CTable>
-
-      <CModal visible={modalVisible} onClose={() => setModalVisible(false)} size="lg">
-        <CModalHeader>
-          <CModalTitle>{editMode ? 'Edit Shipment' : 'Create Shipment'}</CModalTitle>
-        </CModalHeader>
-        <CModalBody>
-          <CForm onSubmit={handleCreateOrUpdate}>
-            <CRow className="mb-3">
-              <CCol md={6}>
-                <CFormInput
-                  label="Tracking ID"
-                  name="tracking_id"
-                  value={formData.tracking_id}
-                  onChange={handleChange}
-                  required
-                />
-              </CCol>
-              <CCol md={6}>
-                <CFormInput
-                  label="Shipper Company"
-                  name="shipper_company_name"
-                  value={formData.shipper_company_name}
-                  onChange={handleChange}
-                  required
-                />
-              </CCol>
-            </CRow>
-
-            <CRow className="mb-3">
-              <CCol md={6}>
-                <CFormInput
-                  label="Consignee Company"
-                  name="consignee_company_name"
-                  value={formData.consignee_company_name}
-                  onChange={handleChange}
-                  required
-                />
-              </CCol>
-              <CCol md={6}>
-                <CFormInput
-                  label="Description"
-                  name="shipment_description"
-                  value={formData.shipment_description}
-                  onChange={handleChange}
-                  required
-                />
-              </CCol>
-            </CRow>
-
-            <CRow className="mb-3">
-              <CCol md={4}>
-                <CFormInput
-                  label="Weight (kg)"
-                  name="shipment_weight"
-                  type="number"
-                  value={formData.shipment_weight}
-                  onChange={handleChange}
-                  required
-                />
-              </CCol>
-              <CCol md={4}>
-                <CFormInput
-                  label="Length (cm)"
-                  name="shipment_dimension_length"
-                  type="number"
-                  value={formData.shipment_dimension_length}
-                  onChange={handleChange}
-                  required
-                />
-              </CCol>
-              <CCol md={4}>
-                <CFormInput
-                  label="Width (cm)"
-                  name="shipment_dimension_width"
-                  type="number"
-                  value={formData.shipment_dimension_width}
-                  onChange={handleChange}
-                  required
-                />
-              </CCol>
-            </CRow>
-
-            <CRow className="mb-3">
-              <CCol md={4}>
-                <CFormInput
-                  label="Height (cm)"
-                  name="shipment_dimension_height"
-                  type="number"
-                  value={formData.shipment_dimension_height}
-                  onChange={handleChange}
-                  required
-                />
-              </CCol>
-            </CRow>
-
-            <div className="text-end">
-              <CButton type="submit" color="success" disabled={loading}>
-                {loading ? <CSpinner size="sm" /> : editMode ? 'Update' : 'Create'}
-              </CButton>
-            </div>
-          </CForm>
-        </CModalBody>
-      </CModal>
 
       <CToaster position="top-end">
         {toast.visible && (

@@ -16,8 +16,8 @@
     "build": "env-cmd -f ./.env vite build",
     "lint": "eslint \"src/**/*.js\"",
     "lint-fix": "eslint . --fix",
-    "serve": "vite preview",
-    "start": "vite"
+    "serve": "vite preview --host 192.168.1.102 --port 3000",
+    "start": "vite --host 192.168.1.102 --port 3000"
   },
   "dependencies": {
     "@coreui/chartjs": "^4.0.0",

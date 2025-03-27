@@ -16,6 +16,7 @@ export const createPurchaseOrder = async (req, res) => {
             rfqId,
             additionalNotes,
             products, // from frontend
+            warehouse_id,
         } = req.body;
 
         if (!Array.isArray(products)) {
@@ -57,6 +58,7 @@ export const createPurchaseOrder = async (req, res) => {
             },
             details,
             additionalNotes,
+            warehouse_id,
         });
 
         await po.save();
@@ -88,7 +90,7 @@ export const getPurchaseOrders = async (req, res) => {
 export const updatePurchaseOrder = async (req, res) => {
     try {
         const { purchaseOrderId } = req.params;
-        const { status, paymentStatus } = req.body;
+        const { status, paymentStatus, received } = req.body;
 
         const purchaseOrder = await PurchaseOrder.findById(purchaseOrderId);
         if (!purchaseOrder) {
@@ -97,6 +99,7 @@ export const updatePurchaseOrder = async (req, res) => {
 
         if (status) purchaseOrder.status = status;
         if (paymentStatus) purchaseOrder.paymentStatus = paymentStatus;
+        if (received) purchaseOrder.received = received;
 
         await purchaseOrder.save();
         res.status(200).json(purchaseOrder);
