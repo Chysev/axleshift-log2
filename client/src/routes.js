@@ -1,9 +1,10 @@
 import { element } from 'prop-types'
 import { lazy } from 'react'
 import CreateAwardNotice from './views/pages/Award/award.js'
-import WarehouseManagement from './views/Warehouses/warehouse/WarehouseManagement.js'
 import VendorQuotes from './views/pages/Quotes/Quotes.js'
 import ShipmentsList from './views/pages/shipment/ShipmentList.js'
+import CreateAnnouncement from './views/pages/Announcement/announcement.js'
+import CreateNotification from './views/pages/Notification/Notification.js'
 
 const Dashboard = lazy(() => import('./views/dashboard/Dashboard'))
 const Alerts = lazy(() => import('./views/pages/Alerts/Alerts.js'))
@@ -47,7 +48,8 @@ const routes = [
   { path: '/', name: 'Home', element: Dashboard },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
   { path: '/award', name: 'Award', element: CreateAwardNotice },
-  { path: '/warehouse', name: 'Warehouse', element: WarehouseManagement },
+  { path: '/announcement', name: 'Announcement', element: CreateAnnouncement },
+  { path: '/notification', name: 'Notification', element: CreateNotification },
   { path: '/logistics', name: 'Logistics Dashboard', element: LogisticsDashboard },
   { path: '/incoming', name: 'Incoming Details', element: IncomingDetails },
   { path: '/outgoing', name: 'Outgoing Details', element: OutgoingDetails },

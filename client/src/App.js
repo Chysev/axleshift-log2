@@ -40,9 +40,9 @@ class ErrorBoundary extends Component {
   }
 
   render() {
-    // if (this.state.hasError) {
-    //   return <Navigate to="/404" replace />
-    // }
+    if (this.state.hasError) {
+      return <Navigate to="/404" replace />
+    }
     return this.props.children
   }
 }

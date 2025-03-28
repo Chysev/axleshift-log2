@@ -38,8 +38,8 @@ export default defineConfig(() => {
       extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.scss'],
     },
     server: {
-      host: '192.168.1.102',
-      allowedHosts: ['log2.chysev.cloud'],
+      // host: '192.168.1.102',
+      // allowedHosts: ['log2.chysev.cloud'],
     },
   }
 })

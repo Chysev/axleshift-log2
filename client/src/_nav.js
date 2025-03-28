@@ -54,13 +54,6 @@ const _nav = [
     icon: <FontAwesomeIcon icon={faBullhorn} className="nav-icon" />,
   },
   {
-    component: CNavItem,
-    name: 'Warehouse Management',
-    to: '/warehouse',
-    role_exclude: ['vendor', 'user', 'staff'],
-    icon: <FontAwesomeIcon icon={faBullhorn} className="nav-icon" />,
-  },
-  {
     component: CNavTitle,
     name: 'Procurement',
     role_exclude: ['vendor', 'user', 'staff'],

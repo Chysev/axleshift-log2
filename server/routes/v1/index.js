@@ -16,6 +16,9 @@ import invoice from "./invoice.js";
 import Department from "./department.js";
 import Award from "./awardNotice.js";
 import VendorQuotes from "./vendorQuotePending.js";
+import Notification from "./notification.js";
+import Announcement from "./announcement.js";
+import inventoryRoutes from "./inventory.js";
 
 const router = express.Router();
 
@@ -28,11 +31,14 @@ router.use("/inventory", inventory);
 router.use("/profile", profile);
 router.use("/vendor", vendor);
 router.use("/product", product);
+router.use("/inventory", inventoryRoutes);
 router.use("/rfq", RFQ);
 router.use("/bid", bid);
 router.use("/procurement", Procurement);
 router.use("/shipment", shipment);
+router.use("/announcements", Announcement);
 router.use("/purchaseOrder", purchaseOrder);
+router.use("/notifications", Notification);
 router.use("/invoice", invoice);
 router.use("/department", Department);
 router.use("/awards", Award);
