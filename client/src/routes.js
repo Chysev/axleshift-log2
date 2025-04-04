@@ -5,6 +5,9 @@ import VendorQuotes from './views/pages/Quotes/Quotes.js'
 import ShipmentsList from './views/pages/shipment/ShipmentList.js'
 import CreateAnnouncement from './views/pages/Announcement/announcement.js'
 import CreateNotification from './views/pages/Notification/Notification.js'
+import BudgetRequestPage from './views/pages/budgetRequest/budgetRequest.js'
+import InvoicePage from './views/invoice/invoice.js'
+import ChatbotCard from './views/pages/chatbot/chatbot.js'
 
 const Dashboard = lazy(() => import('./views/dashboard/Dashboard'))
 const Alerts = lazy(() => import('./views/pages/Alerts/Alerts.js'))
@@ -64,6 +67,7 @@ const routes = [
   // PROCUREMENT PATH SECTION -_-
   { path: '/procurement/rfq-management', name: 'RFQManagement', element: RFQManagement },
   { path: '/procurement/product-catalog', name: 'Product', element: product },
+  { path: '/budget/request', name: 'Announcement', element: BudgetRequestPage },
   { path: '/procurement/product/:id', name: 'Product Details', element: ProductDetails },
   { path: '/procurement/product/new', name: 'Product Creation', element: ProductCreation },
   { path: '/procurement/procurement', name: 'ProcurementPage', element: ProcurementPage },
@@ -80,6 +84,8 @@ const routes = [
   // VENDOR RELATED PATH SECTION :P
   { path: '/vendor/rfqs', name: 'Vendor RFQ List', element: VendorRFQList },
   { path: '/vendor/quotes', name: 'Quotes Request', element: VendorQuotes },
+  { path: '/vendor/invoice', name: 'Invoice', element: InvoicePage },
+  { path: '/vendor/communication', name: 'Communcation', element: ChatbotCard },
   { path: '/vendor/shipments', name: 'Shipment and Delivery', element: ShipmentsList },
   { path: '/vendor/rfqs/:id', name: 'Vendor RFQ Details', element: VendorRFQDetails },
 ]
